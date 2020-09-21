@@ -78,22 +78,22 @@
         <h2>Examples</h2>
 
         <p>
-        swap : B × A ← A × B
+        swap : B × A ← A × B<br>
         swap = < p2, p1 >
         </p>
 
         <p>
-        dl : A × C + B × C ← (A + B) × C
+        dl : A × C + B × C ← (A + B) × C<br>
         dl = [ i1 . swap, i2 . swap ] . dr . swap
         </p>
 
         <p>
-        and : 1 + 1 ← (1 + 1) × (1 + 1)
+        and : 1 + 1 ← (1 + 1) × (1 + 1)<br>
         and = [ [ i1, i1 ] . dl , [ i1, i2 ] . dl ] . dr
         </p>
 
         <p>
-        or : 1 + 1 ← (1 + 1) × (1 + 1)
+        or : 1 + 1 ← (1 + 1) × (1 + 1)<br>
         or = [ [ i1, i2 ] . dl , [ i2, i2 ] . dl ] . dr
         </p>
 
