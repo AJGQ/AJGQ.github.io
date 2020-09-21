@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Finite Functions</title>
+        <meta charset="UTF8"/>
+    </head>
+    <body>
+        <h1>
+        Algebra of finite functions within algebraic data types
+        </h1>
+
+        <p>
+        The algebra I'm going to talk is about functions that go 
+        from an algebraic data type to another.
+        <br>For example: 
+        <br>f : A ← A × B
+        <br>g : A + B ← A
+        </p>
+            
+        <p>
+        This algebra is (FinFun; _._, <_,_>, [_,_], id, p1, p2, i1, i2, dr)<br>
+        where: <br>
+        </p>
+
+        <h2>Composition</h2>
+        <p>
+        if f: C ← B, and g: B ← A, then f . g : C ← A<br>
+        (f . g) a = f (g (a))
+        </p>
+
+        <p>
+        The operation id, is the identity and has the following properties<br>
+        id . f = f = f . id
+        </p>
+
+        <h2>Split</h2>
+
+        <p>
+        if f: B ← A, and g: C ← A, then < f, g > : B × C ← A<br>
+        < f, g > a = (f a, g b)
+        </p>
+
+        <p>
+        The operations p1 and p2 are the projections and they have the following properties<br>
+        p1 . < f, g > = f<br>
+        p2 . < f, g > = g<br>
+        </p>
+        
+        <h2>Either</h2>
+
+        <p>
+        if f: C ← A, and g: C ← B, then [ f, g ] : C ← A + B<br>
+        [ f, g ] (i1 a) = f a<br>
+        [ f, g ] (i2 a) = g a
+        </p>
+
+        <p>
+        The operations i1 and i2 are the injections and they have the following properties<br>
+        [ f, g ] . i1 = f<br>
+        [ f, g ] . i2 = g
+        </p>
+        
+        <h2>Distribute Right</h2>
+
+        <p>
+        With the split and either we can't define the function that distributes the data types.<br>
+        That means the function with the following type:
+        </p>
+        <p>
+        dr : A × B + A × C ← A × (B + C)
+        </p>
+        <p>
+        needs to be an element in the algebra and is pseudo defined by:<br>
+        dr (a, i1 b) = i1 (a, b)<br>
+        dr (a, i2 c) = i2 (a, c)
+        </p>
+        
+        <h2>Examples</h2>
+
+        <p>
+        swap : B × A ← A × B
+        swap = < p2, p1 >
+        </p>
+
+        <p>
+        dl : A × C + B × C ← (A + B) × C
+        dl = [ i1 . swap, i2 . swap ] . dr . swap
+        </p>
+
+        <p>
+        and : 1 + 1 ← (1 + 1) × (1 + 1)
+        and = [ [ i1, i1 ] . dl , [ i1, i2 ] . dl ] . dr
+        </p>
+
+        <p>
+        or : 1 + 1 ← (1 + 1) × (1 + 1)
+        or = [ [ i1, i2 ] . dl , [ i2, i2 ] . dl ] . dr
+        </p>
+
+        <h2>Classify all the types of this functions</h2>
+
+        <p>Because the split and either have an absorption property, like:</p>
+
+        <p>< f, g > . h = < f . h, g . h ></p>
+        <p>f . [ g, h ] = [ f . g, f . h ]</p>
+
+        <p>We can say that if an expression has a split and an either the expression will be like:</p>
+
+        <p>[ _, _ ] . _ . < _, _ >, where in the middle there is no split or either</p>
+
+        <p>It means that the middle is only the composition of p1, p2, i1, i2, dr</p>
+
+        <p>Because of the type, is impossible to have i_ . p_, dr . i_, p_ . dr or dr . dr, so if we have a 
+        composition of p1, p2, i1, i2, dr; it can only be like:
+        </p>
+        <p> i* . dr? . p* </p>
+
+        <p>And because of [ _, _ ] . i_ = _ and p_ . < _, _ > = _ </p>
+
+        <p>if an expression has a split and an either the expression will be like:</p>
+
+        <p>
+        (1) [ _, _ ] . dr . < _, _ >
+        </p>
+
+        <p>if an expression has a split and no either the expression will be like:</p>
+
+        <p>
+        (2) i* . < _, _ > <br> 
+        or <br>
+        (3) i* . dr . < _, _ > <br> 
+        </p>
+
+        <p>if an expression has an either and no split the expression will be like:</p>
+
+        <p>
+        (4) [ _, _ ] . p* <br> 
+        or <br>
+        (5) [ _, _ ] . dr . p* <br> 
+        </p>
+
+        <p>if an expression has neither split or either the expression will be like:</p>
+
+        <p>
+        (6) i* . p* <br> 
+        or <br>
+        (7) i* . dr . p* <br> 
+        </p>
+
+    </body>
+</html>
