@@ -24,7 +24,44 @@
         <p>so we will introduce it to the algebra.</p>
 
         <p>The new algebra will look like (IntFinRel; _._, <_,_>, [_,_], id, p1, p2, pp, i1, i2, dr, ⊥)</p>
+
+        <h2>pp</h2>
+
+        <p>This is a partial function that can be expressed by the relation {(a, (a, a)) | a ∈ A}, 
+        and can be thought as the converse of < id, id > or the special projection that forces the 
+        two elements to be the same</p>
+
+        <p>Has the property of:</p>
+
+        <p>pp . < R, S > = R ∩ S</p>
+
+        <h2>⊥</h2>
+
+        <p>This relation is called bottom and is the empty relation</p>
+
+        <p>Has the property of:</p>
+
+        <p>R . ⊥ = ⊥ = ⊥ . R</p>
         
+        <h2>Classes of this algebra</h2>
+
+        <p>
+        (1) [ _, _ ] . dr . < _, _ ><br>
+        (2) i* . < _, _ > <br> 
+        (3) i* . dr . < _, _ > <br> 
+        (4) [ _, _ ] . p* <br> 
+        (5) [ _, _ ] . dr . p* <br> 
+        (6) i* . p* <br> 
+        (7) i* . dr . p* <br> 
+        (8) ⊥
+        </p>
+        <h2>Proof that is closed to intersection</h2>
+
+        <p>To prove this, we need to show that for every intersection between IntFinRel we can 
+        represent without ∩, and we can do it by "implementing" ∩.</p>
+
+        
+
         <p>[WORK IN PROGRESS]</p>
     </body>
 </html>
