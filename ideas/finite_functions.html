@@ -114,6 +114,10 @@
         composition of p1, p2, i1, i2, dr; it can only be like:
         </p>
         <p> i* . dr? . p* </p>
+        <p>Because dr receives a pair that means p* can be written as a split, or i* can be written as an 
+        either, which means we can discard dr if we know that there aren't any split or either</p>
+
+        <p>i* . p*</p>
 
         <p>And because of [ _, _ ] . i_ = _ and p_ . < _, _ > = _ </p>
 
@@ -127,24 +131,18 @@
 
         <p>
         (2) i* . < _, _ > <br> 
-        or <br>
-        (3) i* . dr . < _, _ > <br> 
         </p>
 
         <p>if an expression has an either and no split the expression will be like:</p>
 
         <p>
-        (4) [ _, _ ] . p* <br> 
-        or <br>
-        (5) [ _, _ ] . dr . p* <br> 
+        (3) [ _, _ ] . p* <br> 
         </p>
 
         <p>if an expression has neither split or either the expression will be like:</p>
 
         <p>
-        (6) i* . p* <br> 
-        or <br>
-        (7) i* . dr . p* <br> 
+        (4) i* . p* <br> 
         </p>
 
     </body>
