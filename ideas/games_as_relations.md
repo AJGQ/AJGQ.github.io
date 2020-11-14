@@ -23,7 +23,7 @@ a strategy.
 Lets call __ContinueState__ to the game states wich have at 
 least one move to another state in the game.
 
-    type Strategy = ContinueState -> GameState </b>
+    type Strategy = ContinueState -> GameState
 
 For simplicity sake, we will say that there is no ties.
 A player loses a game, when it reaches a state that is not 
