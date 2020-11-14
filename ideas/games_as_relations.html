@@ -19,15 +19,20 @@
 <header id="title-block-header">
 <h1 class="title">Games as Relations</h1>
 </header>
-<p>We can see a game as a relation with type GameState -&gt; GameState .</p>
-<pre><code>type Game = Rel GameState GameState</code></pre>
-<p>It can be seen as a graph between states of the game, for example in the game of chess, the game state would be the board and its pieces, in a given moment.</p>
+<p>We can see a <strong>Game</strong> as a pair, of a <strong>GameStrategy</strong> and a <strong>GameInit</strong>.</p>
+<p>A <strong>GameStrategy</strong> is a relation with type GameState -&gt; GameState .</p>
+<pre><code>type GameStrategy = Rel GameState GameState</code></pre>
+<p>A <strong>GameInit</strong> is a <strong>GameState</strong>.</p>
+<p>It can be seen as a graph between states of the game, for example in the game of chess, the game state would be the board and its pieces, in a given moment (With castle and repetition of states, is a bit more, but to simplify, lets not have that).</p>
 <p>Let’s say that a player before a game is programmed to play in a specific way, which means, that for a specific <strong>GameState</strong> the player will play a specific valid move. That player would be undistinguichable from a normal player, without taking into account the pressure of the moment. This “programable player” can be modeled pretty nicelly. with only a function between game states, we can also call it a <strong>Strategy</strong>, because all that player does is execute a strategy.</p>
 <p>Lets call <strong>ContinueState</strong> to the game states which have at least one move to another state in the game.</p>
 <pre><code>type Strategy = ContinueState -&gt; GameState</code></pre>
-<p>For simplicity sake, we will say that there is no ties. A player loses a game, when it reaches a state that is not a ContinueState. Let’s call it <strong>EndState</strong>.</p>
-<p>Be aware that a game to exist, only needs its rules, without the initial state. for example if you give a jumbled chess board to two player and say, play chess with the normal rules. They will play it (after they decide which one is who).</p>
-<p>With this, it can be proven that a strategy can win and lose to other strategies. And, in some cases, can be constructed a relation between strategies, to say what strategy is the best,</p>
+<p>For simplicity sake, we will say that there is no ties. A player loses a game, when it reaches a state that is not a <strong>ContinueState</strong>. Let’s call it <strong>EndState</strong>.</p>
+<p>If you give a jumbled chess board to two player and say, play chess with the normal rules. They will play it (after they decide which one is who). But if we want a relation between 2 <strong>Strategy</strong>, saying who is better, we need a <strong>GameInit</strong> to figure that out, if not, then a <strong>Strategy</strong> could win and lose to other <strong>Strategy</strong>.</p>
+<pre><code>S, T ∈ Strategy
+S ≥ T &lt;=&gt; S beats T (...)</code></pre>
+<p>If we imagine the relation ≥ as a directed graph where the nodes are Strategies, in this graph can exist cycles, so if we see the SCC’s of that graph as a nodes we can see which group wins to which group, Because we have a DAG.</p>
+<p>If it exists only winners and losers in the game, then that graph is going to be a serial relation.</p>
 <p>Example: (To be written)</p>
 </body>
 </html>
