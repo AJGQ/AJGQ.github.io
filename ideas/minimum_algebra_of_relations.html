@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Minimum Algebra of Relations</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Minimum Algebra of Relations</h1>
+</header>
+<p>The objective of this text is to present ways to represent a relation that is complete, ie, covers all of the possible relations.</p>
+<p>Well, not all of the relations, only the finite ones, for simplicity sake.</p>
+<h1 id="type-system-of-relations">Type System of Relations</h1>
+<pre><code>tR ::= t &lt;- t
+
+t ::= 1
+t ::= t x t
+t ::= t + t</code></pre>
+<p>Basically finite algebraic data type.</p>
+<h1 id="complete-algebra-of-relations-car">Complete Algebra of Relations (CAR)</h1>
+<pre><code>R,S ::=
+RxS , &lt; , &gt; ,
+R+S , [ , ] ,
+R.S , ⊥ , T</code></pre>
+<p>All this operators and elements can be used to create any relation of the types we are worried about.</p>
+<h2 id="types">Types</h2>
+<pre><code>R : B &lt;- A ∧ S : D &lt;- C &lt;=&gt; RxS : BxD &lt;- AxC
+&gt; : AxA &lt;- A
+&lt; : A &lt;- AxA
+
+R : B &lt;- A ∧ S : D &lt;- C &lt;=&gt; R+S : B+D &lt;- A+C
+] : A+A &lt;- A
+[ : A &lt;- A+A
+
+R : C &lt;- B ∧ S : B &lt;- A &lt;=&gt; R.S : C &lt;- A
+⊥ : 1 &lt;- 1
+T : 1 &lt;- 1</code></pre>
+<p>The bottom and the top are used only from 1 to 1, because we can define the other types with induction in the types. But we will use the same simbol for all the types, for simplicity.</p>
+<h2 id="behaviour">Behaviour</h2>
+<pre><code>(c,d) (RxS) (a,b) &lt;=&gt; c R a ∧ d S b
+(a,a) &gt; a
+a &lt; (a,a)
+
+b (R+S) a &lt;=&gt; b (i1 . R . i1º) a ∨ b (i2 . S . i2º) a
+b ] a &lt;=&gt; b i1 a ∨ b i2 a
+a [ b &lt;=&gt; b i1 a ∨ b i2 a
+
+c (R.S) a &lt;=&gt; ∃b:: c R b ∧ b S a
+a ⊥ b &lt;=&gt; FALSE
+a T b &lt;=&gt; TRUE</code></pre>
+<h1 id="composition">Composition</h1>
+<p>The composition given by <em>.</em>, can be very helpfull for readability, but for asking about properties of that relation is not so great, for example if we want to now if R ⊆ S or R = S then the composition is our enemy.</p>
+<h1 id="no-composition">No Composition</h1>
+<p>We are going to try to represent the algebra we were talking about but without composition.</p>
+<h2 id="first-try-ft">First Try (FT)</h2>
+<pre><code>F,G ::= 
+&lt;FxG) , (FxG&gt; ,
+[F+G) , (F+G] ,
+⊥     , T</code></pre>
+<p>To transform FT to CAR is simple, but when trying to transform CAR to FT we can encounter the following problem. &gt;.] and [.&lt; cannot be represented by FT.</p>
+<p>Why??</p>
+<p>Because there is no R and S, such that (R x S&gt; = &gt;.]</p>
+<p>Even if we upgraded with &gt;.], we would have the same problem with &gt;.].]</p>
+<h2 id="second-try-st">Second Try (ST)</h2>
+<pre><code>F,G ::= 
+n&lt;FxG) , (FxG&gt;n ,
+[F+G) , (F+G] ,
+⊥     , T
+∀n∈N0</code></pre>
+<h3 id="id">id</h3>
+<pre><code>(id: 1&lt;-1) := T
+(id: AxB&lt;-AxB) := &lt; (idxT&gt; x (Txid&gt; ) = ( &lt;idxT) x &lt;Txid) &gt;
+(id: A+B&lt;-A+B) := [ (id+⊥] + (⊥+id] ) = ( [id+⊥) + [⊥+id) ]</code></pre>
+<h3 id="st---car">ST -&gt; CAR</h3>
+<pre><code>⊥ := ⊥
+T := T
+
+0&lt;FxG) := &lt; . (FxG)
+(n+1)&lt;FxG) := [ . n&lt;FxG)
+(FxG&gt;0 := (FxG) . &gt;
+(FxG&gt;(n+1) := (FxG&gt;n . ]
+
+[F+G) := [ . (FxG)
+(F+G] := (FxG) . ]</code></pre>
+<h3 id="car---st">CAR -&gt; ST</h3>
+<pre><code>⊥ := ⊥
+T := T
+
+RxS := &lt; (RxT&gt; x (TxS&gt; ) = ( &lt;RxT) x &lt;TxS) &gt;
+&gt; := (id x id&gt;
+&lt; := &lt;id x id)
+
+R+S := [ (R+⊥] + (⊥+S] ) = ( [R+⊥) + [⊥+S) ]
+] := (id + id]
+[ := [id + id)</code></pre>
+<h4 id="r.s">R.S = ?</h4>
+<p>The composition we need more induction.</p>
+<pre><code>⊥.R = ⊥
+R.⊥ = ⊥
+T.R = R
+R.T = R
+
+n&lt;RxS) . m&lt;QxK) := 
+n&lt;RxS) . (QxK&gt;m := R.Q ∩ S.K
+n&lt;RxS) . [Q+K)  := 
+n&lt;RxS) . (Q+K]  := ⊥
+(RxS&gt;n . m&lt;QxK) := 
+(RxS&gt;n . (QxK&gt;m := 
+(RxS&gt;n . [Q+K)  := 
+(RxS&gt;n . (Q+K]  := 
+[R+S)  . m&lt;QxK) := 
+[R+S)  . (QxK&gt;m := ⊥
+[R+S)  . [Q+K)  := 
+[R+S)  . (Q+K]  := R.Q ∪ S.K
+(R+S]  . m&lt;QxK) := 
+(R+S]  . (QxK&gt;m := 
+(R+S]  . [Q+K)  := 
+(R+S]  . (Q+K]  := </code></pre>
+</body>
+</html>
