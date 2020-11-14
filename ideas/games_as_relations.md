@@ -31,9 +31,8 @@ least one move to another state in the game.
 
     type Strategy = ContinueState -> GameState
 
-For simplicity sake, we will say that there is no ties.
-A player loses a game, when it reaches a state that is not 
-a __ContinueState__. Let's call it __EndState__.
+A player wins the game, when it reaches a state that is not 
+a __ContinueState__. Let's call it __WinState__.
 
 If you give a jumbled chess board to two player and say, 
 play chess with the normal rules. They will play it 
@@ -44,15 +43,44 @@ if not, then a __Strategy__ could win and lose to other
 __Strategy__.
 
     S, T ∈ Strategy
-    S ≥ T <=> S beats T (...)
+    S ≥1 T <=> S beats T, when S plays first (...)
+    S ≥2 T <=> S beats T, when S plays second (...)
 
-If we imagine the relation ≥ as a directed graph where the
+The relation ≥1 or ≥2 only exists if there is 2 players.
+
+If we imagine the relation ≥1 or ≥2 as a directed graph where the
 nodes are Strategies, in this graph can exist cycles, so
 if we see the SCC's of that graph as a nodes we can see 
 which group wins to which group, Because we have a DAG.
 
 If it exists only winners and losers in the game, then 
-that graph is going to be a serial relation.
+that graph is going to be a serial relation, which means
+there exists a group of Strategies that are the best ones.
 
-Example:
-(To be written)
+# Example
+
+## Description 
+
+A simple example can be a made up game, that is described 
+like the following:
+
+The State of the game is only a number in modulo 5.
+
+    GameState = {0,1,2,3,4}
+
+The initial state is 0.
+
+    GameInitial = 0
+
+The players can sum 1 or 2 to the state.
+
+    GameStrategy = { (a, b) | (b = a+1 ∨ b = a+2) ∧ a≠4 }
+
+The player who reaches 4, wins.
+
+    WinState = { 4 }
+
+## ≥1 and ≥2
+
+    S ≥1 T <=> <∃n:: _WinState . (S . T)^n . S . _GameInitial ≠ ∅ >
+    S ≥2 T <=> <∃n:: _WinState . (T . S)^n . T . _GameInitial ≠ ∅ >

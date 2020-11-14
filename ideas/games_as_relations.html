@@ -27,12 +27,27 @@
 <p>Let’s say that a player before a game is programmed to play in a specific way, which means, that for a specific <strong>GameState</strong> the player will play a specific valid move. That player would be undistinguichable from a normal player, without taking into account the pressure of the moment. This “programable player” can be modeled pretty nicelly. with only a function between game states, we can also call it a <strong>Strategy</strong>, because all that player does is execute a strategy.</p>
 <p>Lets call <strong>ContinueState</strong> to the game states which have at least one move to another state in the game.</p>
 <pre><code>type Strategy = ContinueState -&gt; GameState</code></pre>
-<p>For simplicity sake, we will say that there is no ties. A player loses a game, when it reaches a state that is not a <strong>ContinueState</strong>. Let’s call it <strong>EndState</strong>.</p>
+<p>A player wins the game, when it reaches a state that is not a <strong>ContinueState</strong>. Let’s call it <strong>WinState</strong>.</p>
 <p>If you give a jumbled chess board to two player and say, play chess with the normal rules. They will play it (after they decide which one is who). But if we want a relation between 2 <strong>Strategy</strong>, saying who is better, we need a <strong>GameInit</strong> to figure that out, if not, then a <strong>Strategy</strong> could win and lose to other <strong>Strategy</strong>.</p>
 <pre><code>S, T ∈ Strategy
-S ≥ T &lt;=&gt; S beats T (...)</code></pre>
-<p>If we imagine the relation ≥ as a directed graph where the nodes are Strategies, in this graph can exist cycles, so if we see the SCC’s of that graph as a nodes we can see which group wins to which group, Because we have a DAG.</p>
-<p>If it exists only winners and losers in the game, then that graph is going to be a serial relation.</p>
-<p>Example: (To be written)</p>
+S ≥1 T &lt;=&gt; S beats T, when S plays first (...)
+S ≥2 T &lt;=&gt; S beats T, when S plays second (...)</code></pre>
+<p>The relation ≥1 or ≥2 only exists if there is 2 players.</p>
+<p>If we imagine the relation ≥1 or ≥2 as a directed graph where the nodes are Strategies, in this graph can exist cycles, so if we see the SCC’s of that graph as a nodes we can see which group wins to which group, Because we have a DAG.</p>
+<p>If it exists only winners and losers in the game, then that graph is going to be a serial relation, which means there exists a group of Strategies that are the best ones.</p>
+<h1 id="example">Example</h1>
+<h2 id="description">Description</h2>
+<p>A simple example can be a made up game, that is described like the following:</p>
+<p>The State of the game is only a number in modulo 5.</p>
+<pre><code>GameState = {0,1,2,3,4}</code></pre>
+<p>The initial state is 0.</p>
+<pre><code>GameInitial = 0</code></pre>
+<p>The players can sum 1 or 2 to the state.</p>
+<pre><code>GameStrategy = { (a, b) | (b = a+1 ∨ b = a+2) ∧ a≠4 }</code></pre>
+<p>The player who reaches 4, wins.</p>
+<pre><code>WinState = { 4 }</code></pre>
+<h2 id="and-2">≥1 and ≥2</h2>
+<pre><code>S ≥1 T &lt;=&gt; &lt;∃n:: _WinState . (S . T)^n . S . _GameInitial ≠ ∅ &gt;
+S ≥2 T &lt;=&gt; &lt;∃n:: _WinState . (T . S)^n . T . _GameInitial ≠ ∅ &gt;</code></pre>
 </body>
 </html>
