@@ -30,11 +30,17 @@
 <p>A player wins the game, when it reaches a state that is not a <strong>ContinueState</strong>. Let’s call it <strong>WinState</strong>.</p>
 <p>If you give a jumbled chess board to two player and say, play chess with the normal rules. They will play it (after they decide which one is who). But if we want a relation between 2 <strong>Strategy</strong>, saying who is better, we need a <strong>GameInit</strong> to figure that out, if not, then a <strong>Strategy</strong> could win and lose to other <strong>Strategy</strong>.</p>
 <pre><code>S, T ∈ Strategy
-S ≥1 T &lt;=&gt; S beats T, when S plays first (...)
-S ≥2 T &lt;=&gt; S beats T, when S plays second (...)</code></pre>
+
+S ≥1 T &lt;=&gt; &lt;∃n:: _WinStateº . (S . T)^n . S . _GameInitial ≠ ∅ &gt;
+(S ≥1 T &lt;=&gt; S beats T, when S plays first)
+
+S ≥2 T &lt;=&gt; &lt;∃n:: _WinStateº . (T . S)^n . T . _GameInitial ≠ ∅ &gt;
+(S ≥2 T &lt;=&gt; S beats T, when S plays second)</code></pre>
 <p>The relation ≥1 or ≥2 only exists if there is 2 players.</p>
 <p>If we imagine the relation ≥1 or ≥2 as a directed graph where the nodes are Strategies, in this graph can exist cycles, so if we see the SCC’s of that graph as a nodes we can see which group wins to which group, Because we have a DAG.</p>
 <p>If it exists only winners and losers in the game, then that graph is going to be a serial relation, which means there exists a group of Strategies that are the best ones.</p>
+<p>One important question now is, what is the structure of S and T, such that the <strong>S.T</strong> and <strong>S^n</strong> is easy to calculate.</p>
+<p>Matrices have that property, but then it has to have all of the <strong>GameStates</strong> in the row and collumn.</p>
 <h1 id="example">Example</h1>
 <h2 id="description">Description</h2>
 <p>A simple example can be a made up game, that is described like the following:</p>
@@ -46,8 +52,21 @@ S ≥2 T &lt;=&gt; S beats T, when S plays second (...)</code></pre>
 <pre><code>GameStrategy = { (a, b) | (b = a+1 ∨ b = a+2) ∧ a≠4 }</code></pre>
 <p>The player who reaches 4, wins.</p>
 <pre><code>WinState = { 4 }</code></pre>
+<p>The <strong>GameStrategy</strong> as a matrix:</p>
+<pre><code>|0 0 0 1 0|
+|1 0 0 0 0|
+|1 1 0 0 0|
+|0 1 1 0 0|
+|0 0 1 1 0|</code></pre>
+<p>The number of <strong>Strategies</strong> in this <strong>GameStrategy</strong> is 2⁴ = 16</p>
 <h2 id="and-2">≥1 and ≥2</h2>
-<pre><code>S ≥1 T &lt;=&gt; &lt;∃n:: _WinState . (S . T)^n . S . _GameInitial ≠ ∅ &gt;
-S ≥2 T &lt;=&gt; &lt;∃n:: _WinState . (T . S)^n . T . _GameInitial ≠ ∅ &gt;</code></pre>
+<pre><code>S ≥1 T &lt;=&gt; &lt;∃n:: 4 = ((S . T)^n . S) 0 &gt;
+S ≥2 T &lt;=&gt; &lt;∃n:: 4 = ((T . S)^n . T) 0 &gt;</code></pre>
+<p>if we see an S and a T as a binary matrices 5 by 5, then S and T can be seen as</p>
+<pre><code>ST = ST1 . DST . ST2, ST2 = ST1⁻¹
+TS = TS1 . DTS . TS2, TS2 = TS1⁻¹
+
+S ≥1 T &lt;=&gt; &lt;∃n:: 4 = (ST1 . DST^n . ST2 . S) 0 &gt;
+S ≥2 T &lt;=&gt; &lt;∃n:: 4 = (TS1 . DTS^n . TS2 . T) 0 &gt;</code></pre>
 </body>
 </html>

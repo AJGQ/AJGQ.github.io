@@ -43,8 +43,12 @@ if not, then a __Strategy__ could win and lose to other
 __Strategy__.
 
     S, T ∈ Strategy
-    S ≥1 T <=> S beats T, when S plays first (...)
-    S ≥2 T <=> S beats T, when S plays second (...)
+
+    S ≥1 T <=> <∃n:: _WinStateº . (S . T)^n . S . _GameInitial ≠ ∅ >
+    (S ≥1 T <=> S beats T, when S plays first)
+
+    S ≥2 T <=> <∃n:: _WinStateº . (T . S)^n . T . _GameInitial ≠ ∅ >
+    (S ≥2 T <=> S beats T, when S plays second)
 
 The relation ≥1 or ≥2 only exists if there is 2 players.
 
@@ -56,6 +60,12 @@ which group wins to which group, Because we have a DAG.
 If it exists only winners and losers in the game, then 
 that graph is going to be a serial relation, which means
 there exists a group of Strategies that are the best ones.
+
+One important question now is, what is the structure of S 
+and T, such that the __S.T__ and __S^n__ is easy to calculate.
+
+Matrices have that property, but then it has to have all of
+the __GameStates__ in the row and collumn.
 
 # Example
 
@@ -80,7 +90,30 @@ The player who reaches 4, wins.
 
     WinState = { 4 }
 
+The __GameStrategy__ as a matrix:
+
+    |0 0 0 1 0|
+    |1 0 0 0 0|
+    |1 1 0 0 0|
+    |0 1 1 0 0|
+    |0 0 1 1 0|
+
+The number of __Strategies__ in this __GameStrategy__
+is 2⁴ = 16
+
+
+
 ## ≥1 and ≥2
 
-    S ≥1 T <=> <∃n:: _WinState . (S . T)^n . S . _GameInitial ≠ ∅ >
-    S ≥2 T <=> <∃n:: _WinState . (T . S)^n . T . _GameInitial ≠ ∅ >
+    S ≥1 T <=> <∃n:: 4 = ((S . T)^n . S) 0 >
+    S ≥2 T <=> <∃n:: 4 = ((T . S)^n . T) 0 >
+
+if we see an S and a T as a binary matrices 5 by 5,
+then S and T can be seen as 
+
+    ST = ST1 . DST . ST2, ST2 = ST1⁻¹
+    TS = TS1 . DTS . TS2, TS2 = TS1⁻¹
+
+    S ≥1 T <=> <∃n:: 4 = (ST1 . DST^n . ST2 . S) 0 >
+    S ≥2 T <=> <∃n:: 4 = (TS1 . DTS^n . TS2 . T) 0 >
+    
